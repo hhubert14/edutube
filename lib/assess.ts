@@ -63,8 +63,8 @@ export async function assessResults(
     process.env.LLM_BASE_URL?.replace(/\/$/, "") ||
     "https://openrouter.ai/api/v1";
   const models = [
-    process.env.LLM_MODEL || "deepseek/deepseek-chat",
-    process.env.LLM_FALLBACK_MODEL || "openrouter/free",
+    process.env.LLM_MODEL || "openrouter/free",
+    process.env.LLM_FALLBACK_MODEL || "openai/gpt-oss-20b:free",
   ];
 
   const provider = createOpenAICompatible({
