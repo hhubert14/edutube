@@ -47,60 +47,105 @@ function keepListed(
   return results.filter((_, index) => keep.has(index));
 }
 
+// Free-tier quota is tracked per model, so we rotate across several to pool
+// it. Order matters: the flash-lite models carry the biggest quotas.
+const GEMINI_MODELS = [
+  "gemini-3.1-flash-lite", // 500 req/day
+  "gemini-3.5-flash-lite", // 500 req/day
+  "gemini-3.8-flash",      // 20 req/day
+  "gemini-3.5-flash",      // 20 req/day
+  "gemini-3.7-flash",      // 20 req/day
+  "gemini-3.6-flash",      // 20 req/day
+];
+
+function configuredProviders(): Array<{
+  name: string;
+  baseURL: string;
+  apiKey: string;
+  model: string;
+}> {
+  const providers: Array<{
+    name: string;
+    baseURL: string;
+    apiKey: string;
+    model: string;
+  }> = [];
+
+  const geminiKey = process.env.GEMINI_API_KEY;
+  if (geminiKey) {
+    for (const model of GEMINI_MODELS) {
+      providers.push({
+        name: "gemini",
+        baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
+        apiKey: geminiKey,
+        model,
+      });
+    }
+  }
+
+  const openRouterKey = process.env.OPENROUTER_API_KEY;
+  if (openRouterKey) {
+    providers.push({
+      name: "openrouter",
+      baseURL: "https://openrouter.ai/api/v1",
+      apiKey: openRouterKey,
+      model: process.env.OPENROUTER_MODEL || "openrouter/free",
+    });
+  }
+
+  return providers;
+}
+
 export async function assessResults(
   query: string,
   results: SearchResult[],
 ): Promise<SearchResult[]> {
   if (results.length === 0) return results;
 
-  const apiKey = process.env.LLM_API_KEY;
-  if (!apiKey) {
-    console.warn("[edutube] LLM_API_KEY not set; skipping assessment");
+  const providers = configuredProviders();
+  if (providers.length === 0) {
+    console.warn(
+      "[edutube] No LLM provider configured (GEMINI_API_KEY or OPENROUTER_API_KEY); skipping assessment",
+    );
     return results;
   }
 
-  const baseURL =
-    process.env.LLM_BASE_URL?.replace(/\/$/, "") ||
-    "https://openrouter.ai/api/v1";
-  const models = [
-    process.env.LLM_MODEL || "openrouter/free",
-    process.env.LLM_FALLBACK_MODEL || "openai/gpt-oss-20b:free",
-  ];
-
-  const provider = createOpenAICompatible({
-    name: "openrouter",
-    baseURL,
-    apiKey,
-  });
-
   let lastError: unknown = null;
 
-  for (const model of models) {
+  for (const provider of providers) {
+    const client = createOpenAICompatible({
+      name: provider.name,
+      baseURL: provider.baseURL,
+      apiKey: provider.apiKey,
+    });
     try {
       const { object } = await generateObject({
-        model: provider(model),
+        model: client(provider.model),
         schema: assessmentSchema,
         instructions:
           "You are an expert curation engine that finds educational videos. " +
           "Respond with ONLY a raw JSON object. No markdown, no explanation.",
         prompt: buildPrompt(query, results),
-        maxRetries: 2,
+        maxRetries: 1,
         temperature: 0,
       });
 
       const kept = keepListed(results, object.kept);
       console.log(
-        `[edutube] assessed ${results.length} results with ${model}; kept ${kept.length}`,
+        `[edutube] assessed ${results.length} results with ${provider.name}:${provider.model}; kept ${kept.length}`,
       );
       return kept;
     } catch (err) {
       lastError = err;
-      console.warn(`[edutube] assessment with ${model} failed:`, err);
+      console.warn(
+        `[edutube] assessment with ${provider.name}:${provider.model} failed:`,
+        err instanceof Error ? err.message : err,
+      );
     }
   }
 
   console.warn(
-    "[edutube] all assessment models failed; returning unfiltered results",
+    "[edutube] all LLM providers failed; returning unfiltered results",
     lastError,
   );
   return results;
