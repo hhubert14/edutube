@@ -312,6 +312,29 @@ export default function Home() {
           ) : null}
         </div>
       )}
+
+      <footer className="border-t border-zinc-200 dark:border-zinc-800">
+        <div className="mx-auto flex h-14 max-w-[1280px] items-center justify-center gap-5 px-4 text-sm">
+          <Link
+            href="/about"
+            className="text-zinc-500 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+          >
+            How it works
+          </Link>
+          <Link
+            href="/privacy"
+            className="text-zinc-500 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+          >
+            Privacy
+          </Link>
+          <Link
+            href="/terms"
+            className="text-zinc-500 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+          >
+            Terms
+          </Link>
+        </div>
+      </footer>
     </main>
   );
 }
