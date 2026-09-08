@@ -152,6 +152,7 @@ export default function Home() {
     setError(null);
     setSelected(null);
     setSearched(false);
+    setResults([]);
 
     try {
       const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
