@@ -206,6 +206,7 @@ export default function Home() {
                     type="text"
                     value={query}
                     onChange={(event) => setQuery(event.target.value)}
+                    aria-label="Search query"
                     placeholder="Search"
                     autoFocus
                     className="h-full w-full min-w-0 bg-transparent text-base text-zinc-900 outline-none placeholder-zinc-500 dark:text-zinc-50 dark:placeholder-zinc-400"
