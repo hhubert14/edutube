@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { assessResults } from "@/lib/assess";
 import { searchYouTube, YoutubeSearchError } from "@/lib/youtube";
 
 export async function GET(request: Request) {
@@ -13,7 +14,17 @@ export async function GET(request: Request) {
 
   try {
     const results = await searchYouTube(q);
-    return NextResponse.json({ results });
+
+    try {
+      const assessed = await assessResults(q, results);
+      return NextResponse.json({ results: assessed });
+    } catch (err) {
+      console.error(
+        "[edutube] assessment failed; returning unfiltered results",
+        err,
+      );
+      return NextResponse.json({ results });
+    }
   } catch (err) {
     const status = err instanceof YoutubeSearchError ? err.status : 500;
     console.error(`YouTube search failed (${status}):`, err);

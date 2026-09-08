@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import type { FormEvent } from "react";
 import { useState } from "react";
 
@@ -240,7 +241,8 @@ export default function Home() {
               </div>
             </form>
           ) : null}
-        </div>
+
+          </div>
       </header>
 
       {selected ? (
@@ -249,6 +251,25 @@ export default function Home() {
         </div>
       ) : (
         <div className="mx-auto w-full max-w-[880px] flex-1 px-4 py-6">
+          {!loading && !searched ? (
+            <div className="mx-auto max-w-[560px] pt-10 text-center sm:pt-16">
+              <p className="text-xl font-semibold tracking-tight text-zinc-900 sm:text-2xl dark:text-zinc-50">
+                Search and watch educational YouTube videos only
+              </p>
+              <p className="mx-auto mt-3 text-sm leading-relaxed text-zinc-600 sm:text-base dark:text-zinc-400">
+                Results are filtered by AI to keep out clickbait and
+                entertainment, and playback never opens youtube.com &mdash; no
+                homepage, no recommendations, no Shorts, no comments.
+              </p>
+              <Link
+                href="/about"
+                className="mt-5 inline-block rounded-full border border-zinc-200 px-4 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              >
+                How it works
+              </Link>
+            </div>
+          ) : null}
+
           {error ? (
             <p className="mb-6 text-sm text-red-600 dark:text-red-400">{error}</p>
           ) : null}
@@ -261,7 +282,7 @@ export default function Home() {
 
           {!loading && searched && results.length === 0 && !error ? (
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              No results. Try a different topic.
+              No educational videos found. Try a different topic.
             </p>
           ) : null}
 
