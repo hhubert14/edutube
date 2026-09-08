@@ -12,10 +12,10 @@ npm run dev
 
 ## Recommended setup: hard-block YouTube
 
-For people who struggle to stay off YouTube, blocking it at the system level is much harder to bypass than a Chrome extension. With ScreenZen:
+For people who struggle to stay off YouTube, blocking it at the system level is much harder to bypass than a Chrome extension. With [ScreenZen](https://screenzen.co):
 
-1. Block the YouTube app and `youtube.com` entirely.
-2. Set a wait time (e.g. 15 minutes) before a block can be edited or disabled.
+1. Block the YouTube app and `youtube.com` entirely, 24/7.
+2. Turn on **Lock Settings Timer** and set **Lock Settings Time** to something like 15 minutes. Every time you open settings, you get a countdown timer before you can change anything — enough to curb the urge to disable the block.
 3. Make EduTube your only gateway to YouTube.
 
 ## Feedback

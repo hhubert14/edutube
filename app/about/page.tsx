@@ -98,8 +98,10 @@ export default function About() {
               entirely.
             </li>
             <li>
-              Set a wait time &mdash; e.g. 15 minutes &mdash; before the block can be
-              edited or disabled. Destructive actions get a cooling-off period.
+              Turn on <strong>Lock Settings Timer</strong> and set the{" "}
+              <strong>Lock Settings Time</strong> to something like 15 minutes. Every
+              time you open settings to change anything, you get a countdown timer —
+              enough to curb the urge to disable the block.
             </li>
             <li>
               Make <strong>EduTube your only gateway to YouTube</strong>. Playback
