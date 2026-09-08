@@ -138,6 +138,21 @@ export default function About() {
             .
           </p>
         </Section>
+
+        <Section>
+          <SectionTitle>Contact</SectionTitle>
+          <p className="mt-2">
+            Found a bug, a video our filter wrongly dropped, or a topic you want
+            covered? Email me at{" "}
+            <a
+              href="mailto:huang.hubert14@gmail.com"
+              className="font-medium text-zinc-900 underline decoration-zinc-300 underline-offset-2 hover:decoration-zinc-500 dark:text-zinc-100 dark:decoration-zinc-600"
+            >
+              huang.hubert14@gmail.com
+            </a>
+            .
+          </p>
+        </Section>
         </div>
       </div>
     </main>
