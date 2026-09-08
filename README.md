@@ -2,6 +2,8 @@
 
 Search YouTube, get only educational videos, watch them distraction-free. No homepage, no recommendations, no Shorts, no comments.
 
+Live: [edutube-navy.vercel.app](https://edutube-navy.vercel.app)
+
 ## Running it yourself
 
 ```bash
