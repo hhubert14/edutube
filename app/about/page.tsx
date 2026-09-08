@@ -71,9 +71,9 @@ export default function About() {
           </p>
           <p className="mt-3">
             It&apos;s not just a search bar: every set of results is run through an
-            AI filter that drops clickbait and entertainment videos and re-ranks
-            the rest by educational quality. Only those educational videos make
-            it into the results.
+            AI filter that drops clickbait and entertainment videos and keeps the
+            rest in their original order. Only those educational videos make it
+            into the results.
           </p>
 
         <Section>
