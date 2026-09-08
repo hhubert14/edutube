@@ -32,8 +32,16 @@ function Logo() {
       className="flex w-fit shrink-0 cursor-pointer items-center gap-2 text-xl font-semibold tracking-tight text-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-ytred dark:text-zinc-50"
     >
       <svg viewBox="0 0 36 26" className="h-5 w-auto" aria-hidden="true">
-        <rect width="36" height="26" rx="6" fill="#FF0000" />
-        <path d="M15 8l9 5-9 5z" fill="#fff" />
+        <rect
+          width="36"
+          height="26"
+          rx="6"
+          className="fill-zinc-900 dark:fill-white"
+        />
+        <path
+          d="M15 8l9 5-9 5z"
+          className="fill-white dark:fill-zinc-900"
+        />
       </svg>
       EduTube
     </Link>
